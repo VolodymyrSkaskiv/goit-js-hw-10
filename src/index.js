@@ -29,14 +29,49 @@ refs.input.addEventListener(
 
         // якщо знайдено >= 2 країн і <= 10 виводимо на сторінку дані
       } else if (foundData.length >= 2 && foundData.length <= 10) {
-        // renderCountryList(foundData); //
-        console.log('вивід списку - країн на сторінку');
+        renderCountryList(foundData);
 
         // якщо знайдена 1 країна - виводимо на сторінку 1 країну
       } else if (foundData.length === 1) {
-        // renderOneCountry(foundData); //
-        console.log('вивід 1 країни на сторінку');
+        renderOneCountry(foundData);
       }
     });
   }, DEBOUNCE_DELAY)
 );
+
+function renderCountryList(countries) {
+  const markup = countries
+    .map(country => {
+      return `<li>
+      <img src="${country.flags.svg}" alt="Flag of ${country.name.official}" width="30" hight="20">
+         <p>${country.name.official}</p>
+                </li>`;
+    })
+    .join('');
+
+  refs.countryList.innerHTML = markup;
+}
+
+function renderOneCountry(countries) {
+  // перебір країни з масиву об'єктів
+  const markup = countries
+    .map(country => {
+      return `<li>
+      <img src="${country.flags.svg}" alt="Flag of ${
+        country.name.official
+      }" width="30" hight="20">
+         <p>${country.name.official}</p>
+            <p><b>Capital</b>: ${country.capital}</p>
+            <p><b>Population</b>: ${country.population}</p>
+            <p><b>Languages</b>: ${Object.values(country.languages)} </p>
+                </li>`;
+    })
+    .join('');
+
+  refs.countryList.innerHTML = markup;
+}
+
+function cleanHtml() {
+  refs.countryList.innerHTML = '';
+  refs.countryInfo.innerHTML = '';
+}
