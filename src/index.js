@@ -15,7 +15,8 @@ refs.input.addEventListener(
   'input',
   debounce(e => {
     const trimValue = refs.input.value.trim();
-    console.log('Очищаємо розмітку');
+    cleanHtml();
+
     fetchCountries(trimValue).then(foundData => {
       // якщо знайдено більше 10 країн - виводимо сповіщення
       if (foundData.length > 10) {
@@ -56,19 +57,19 @@ function renderOneCountry(countries) {
   // перебір країни з масиву об'єктів
   const markup = countries
     .map(country => {
-      return `<li>
+      return `<div>
       <img src="${country.flags.svg}" alt="Flag of ${
         country.name.official
       }" width="30" hight="20">
-         <p>${country.name.official}</p>
+         <p>${country.name.official}</p></div>
             <p><b>Capital</b>: ${country.capital}</p>
             <p><b>Population</b>: ${country.population}</p>
             <p><b>Languages</b>: ${Object.values(country.languages)} </p>
-                </li>`;
+                `;
     })
     .join('');
 
-  refs.countryList.innerHTML = markup;
+  refs.countryInfo.innerHTML = markup;
 }
 
 function cleanHtml() {
